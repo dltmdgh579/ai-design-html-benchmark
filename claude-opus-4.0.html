@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>디자인의 정점</title>
+    <title>Quantum Particle Universe</title>
     <style>
         * {
             margin: 0;
@@ -11,551 +11,341 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #00ffff;
-            --secondary: #ff00ff;
-            --tertiary: #ffff00;
-            --dark: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.05);
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--dark);
-            color: white;
-            overflow-x: hidden;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Arial', sans-serif;
             cursor: none;
         }
 
-        /* Custom Cursor */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
         .cursor {
             width: 20px;
             height: 20px;
-            border: 2px solid var(--primary);
+            border: 2px solid rgba(255, 255, 255, 0.8);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
-            z-index: 9999;
+            transform: translate(-50%, -50%);
             transition: all 0.1s ease;
+            z-index: 10000;
             mix-blend-mode: difference;
         }
 
         .cursor-follower {
             width: 40px;
             height: 40px;
-            background: rgba(0, 255, 255, 0.1);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
-            z-index: 9998;
+            transform: translate(-50%, -50%);
             transition: all 0.3s ease;
+            z-index: 9999;
         }
 
-        /* Particle Background */
-        #particles {
+        .ui {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            perspective: 1000px;
-        }
-
-        .hero-content {
-            text-align: center;
-            transform-style: preserve-3d;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotateX(0) rotateY(0); }
-            25% { transform: translateY(-20px) rotateX(2deg) rotateY(-2deg); }
-            75% { transform: translateY(20px) rotateX(-2deg) rotateY(2deg); }
-        }
-
-        .glitch-text {
-            font-size: clamp(3rem, 10vw, 8rem);
-            font-weight: 900;
-            text-transform: uppercase;
-            position: relative;
-            text-shadow: 
-                0 0 10px var(--primary),
-                0 0 20px var(--primary),
-                0 0 30px var(--primary);
-            animation: glitch 2s infinite;
-        }
-
-        .glitch-text::before,
-        .glitch-text::after {
-            content: attr(data-text);
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .glitch-text::before {
-            animation: glitch-1 0.5s infinite;
-            color: var(--secondary);
-            z-index: -1;
-        }
-
-        .glitch-text::after {
-            animation: glitch-2 0.5s infinite;
-            color: var(--tertiary);
-            z-index: -2;
-        }
-
-        @keyframes glitch {
-            0%, 100% { text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 30px var(--primary); }
-            50% { text-shadow: 0 0 20px var(--secondary), 0 0 30px var(--secondary), 0 0 40px var(--secondary); }
-        }
-
-        @keyframes glitch-1 {
-            0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
-            20% { clip-path: inset(0 100% 0 0); transform: translate(-5px); }
-            40% { clip-path: inset(0 0 0 0); transform: translate(5px); }
-            60% { clip-path: inset(100% 0 0 0); transform: translate(-5px); }
-            80% { clip-path: inset(0 0 0 100%); transform: translate(0); }
-        }
-
-        @keyframes glitch-2 {
-            0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
-            20% { clip-path: inset(100% 0 0 0); transform: translate(5px); }
-            40% { clip-path: inset(0 0 0 100%); transform: translate(-5px); }
-            60% { clip-path: inset(0 100% 0 0); transform: translate(5px); }
-            80% { clip-path: inset(0 0 0 0); transform: translate(0); }
-        }
-
-        /* Glass Cards */
-        .cards-section {
-            padding: 100px 20px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .glass-card {
-            width: 300px;
-            height: 400px;
-            background: var(--glass);
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 14px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            max-width: 300px;
         }
 
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(0, 255, 255, 0.1),
-                transparent
-            );
-            transform: rotate(45deg);
-            transition: all 0.5s ease;
-            opacity: 0;
+        .ui h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .glass-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            border-color: var(--primary);
-            box-shadow: 
-                0 10px 30px rgba(0, 255, 255, 0.3),
-                0 0 50px rgba(0, 255, 255, 0.1);
+        .ui p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+            line-height: 1.5;
         }
 
-        .glass-card:hover::before {
-            opacity: 1;
-            animation: shine 0.5s ease;
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        /* Liquid Button */
-        .liquid-button {
-            position: relative;
-            padding: 20px 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 50px;
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
             cursor: pointer;
-            overflow: hidden;
             transition: all 0.3s ease;
-            margin: 50px auto;
-            display: block;
+            font-size: 12px;
         }
 
-        .liquid-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
         }
 
-        .liquid-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.7);
+        .control-btn.active {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border-color: transparent;
         }
 
-        .liquid-button:hover::before {
-            width: 300px;
-            height: 300px;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        /* 3D Rotating Cube */
-        .cube-container {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            perspective: 1000px;
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
-        .cube {
-            width: 200px;
-            height: 200px;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotateX(0) rotateY(0); }
-            100% { transform: rotateX(360deg) rotateY(360deg); }
-        }
-
-        .cube-face {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: var(--glass);
-            border: 2px solid var(--primary);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        .cube-face:nth-child(1) { transform: translateZ(100px); }
-        .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(100px); }
-        .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(100px); }
-        .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(100px); }
-        .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(100px); }
-        .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(100px); }
-
-        /* Wave Text */
-        .wave-text {
-            font-size: 3rem;
-            text-align: center;
-            margin: 100px 0;
-        }
-
-        .wave-text span {
-            display: inline-block;
-            animation: wave 2s ease-in-out infinite;
-            animation-delay: calc(var(--i) * 0.1s);
-        }
-
-        @keyframes wave {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-30px); }
-        }
-
-        /* Morphing Shapes */
-        .morph-container {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .morph {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--tertiary));
-            animation: morph 8s ease-in-out infinite;
-            box-shadow: 0 0 100px rgba(0, 255, 255, 0.5);
-        }
-
-        @keyframes morph {
-            0%, 100% { border-radius: 50%; transform: rotate(0deg) scale(1); }
-            25% { border-radius: 20%; transform: rotate(90deg) scale(1.2); }
-            50% { border-radius: 50% 20%; transform: rotate(180deg) scale(0.8); }
-            75% { border-radius: 20% 50%; transform: rotate(270deg) scale(1.1); }
-        }
-
-        /* Neon Lines */
-        .neon-lines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .neon-line {
-            position: absolute;
-            width: 2px;
-            height: 100vh;
-            background: linear-gradient(to bottom, transparent, var(--primary), transparent);
-            animation: move-line 10s linear infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes move-line {
-            0% { transform: translateX(-100vw); }
-            100% { transform: translateX(100vw); }
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 50px;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .glitch-text {
-                font-size: clamp(2rem, 8vw, 4rem);
+            .ui {
+                top: 10px;
+                left: 10px;
+                padding: 15px;
+                max-width: 250px;
             }
             
-            .cards-section {
-                flex-direction: column;
-                align-items: center;
+            .ui h1 {
+                font-size: 20px;
+            }
+            
+            .ui p {
+                font-size: 12px;
             }
         }
     </style>
 </head>
 <body>
+    <canvas id="canvas"></canvas>
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
     
-    <canvas id="particles"></canvas>
-    
-    <div class="neon-lines">
-        <div class="neon-line" style="left: 10%; animation-delay: 0s;"></div>
-        <div class="neon-line" style="left: 30%; animation-delay: 2s;"></div>
-        <div class="neon-line" style="left: 50%; animation-delay: 4s;"></div>
-        <div class="neon-line" style="left: 70%; animation-delay: 6s;"></div>
-        <div class="neon-line" style="left: 90%; animation-delay: 8s;"></div>
+    <div class="ui">
+        <h1>Quantum Universe</h1>
+        <p>An interactive particle system that responds to your presence. Move your cursor to create gravitational effects.</p>
+        <div class="controls">
+            <button class="control-btn" id="modeBtn">Mode: Gravity</button>
+            <button class="control-btn" id="colorBtn">Color: Spectrum</button>
+            <button class="control-btn" id="speedBtn">Speed: Normal</button>
+            <button class="control-btn pulse" id="resetBtn">Reset Universe</button>
+        </div>
     </div>
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="glitch-text" data-text="DIGITAL ART">DIGITAL ART</h1>
-            <p style="font-size: 1.5rem; margin-top: 20px; opacity: 0.8;">웹 디자인의 새로운 차원</p>
-        </div>
-    </section>
-
-    <section class="cards-section">
-        <div class="glass-card">
-            <h2 style="color: var(--primary); margin-bottom: 20px;">INNOVATION</h2>
-            <p>최첨단 웹 기술로 구현된 인터랙티브 경험</p>
-        </div>
-        <div class="glass-card">
-            <h2 style="color: var(--secondary); margin-bottom: 20px;">CREATIVITY</h2>
-            <p>상상력의 한계를 뛰어넘는 비주얼 아트</p>
-        </div>
-        <div class="glass-card">
-            <h2 style="color: var(--tertiary); margin-bottom: 20px;">FUTURE</h2>
-            <p>미래 지향적 디자인의 새로운 표준</p>
-        </div>
-    </section>
-
-    <button class="liquid-button">EXPLORE MORE</button>
-
-    <div class="wave-text">
-        <span style="--i: 0">W</span>
-        <span style="--i: 1">E</span>
-        <span style="--i: 2">L</span>
-        <span style="--i: 3">C</span>
-        <span style="--i: 4">O</span>
-        <span style="--i: 5">M</span>
-        <span style="--i: 6">E</span>
-    </div>
-
-    <section class="cube-container">
-        <div class="cube">
-            <div class="cube-face">3D</div>
-            <div class="cube-face">WEB</div>
-            <div class="cube-face">ART</div>
-            <div class="cube-face">CSS</div>
-            <div class="cube-face">JS</div>
-            <div class="cube-face">HTML</div>
-        </div>
-    </section>
-
-    <section class="morph-container">
-        <div class="morph"></div>
-    </section>
-
-    <footer class="footer">
-        <p>&copy; 2025 디자인의 정점 - 웹의 예술적 경계를 넘어서</p>
-    </footer>
 
     <script>
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const follower = document.querySelector('.cursor-follower');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                follower.style.left = e.clientX - 10 + 'px';
-                follower.style.top = e.clientY - 10 + 'px';
-            }, 100);
-        });
-
-        // Particle System
-        const canvas = document.getElementById('particles');
+        const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        let particles = [];
+        let mouse = { x: 0, y: 0 };
+        let mode = 'gravity';
+        let colorMode = 'spectrum';
+        let speedMultiplier = 1;
+        let time = 0;
+
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const particles = [];
-        const particleCount = 100;
-
         class Particle {
             constructor() {
+                this.reset();
+            }
+
+            reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
                 this.size = Math.random() * 3 + 1;
-                this.speedX = Math.random() * 3 - 1.5;
-                this.speedY = Math.random() * 3 - 1.5;
-                this.color = `hsl(${Math.random() * 60 + 180}, 100%, 50%)`;
+                this.baseSize = this.size;
+                this.life = 1;
+                this.decay = Math.random() * 0.002 + 0.001;
+                this.hue = Math.random() * 360;
+                this.connections = [];
             }
 
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (mode === 'gravity') {
+                    if (distance < 200) {
+                        const force = (200 - distance) / 200;
+                        this.vx += (dx / distance) * force * 0.5;
+                        this.vy += (dy / distance) * force * 0.5;
+                    }
+                } else if (mode === 'repel') {
+                    if (distance < 150) {
+                        const force = (150 - distance) / 150;
+                        this.vx -= (dx / distance) * force * 0.8;
+                        this.vy -= (dy / distance) * force * 0.8;
+                    }
+                } else if (mode === 'vortex') {
+                    if (distance < 300) {
+                        const angle = Math.atan2(dy, dx) + Math.PI / 2;
+                        const force = (300 - distance) / 300;
+                        this.vx += Math.cos(angle) * force * 0.5;
+                        this.vy += Math.sin(angle) * force * 0.5;
+                    }
+                }
 
-                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                this.vx *= 0.98;
+                this.vy *= 0.98;
+
+                this.x += this.vx * speedMultiplier;
+                this.y += this.vy * speedMultiplier;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                this.life -= this.decay;
+                if (this.life <= 0) this.reset();
+
+                this.size = this.baseSize * this.life;
+                this.hue += 1;
             }
 
             draw() {
-                ctx.fillStyle = this.color;
+                let color;
+                if (colorMode === 'spectrum') {
+                    color = `hsla(${this.hue}, 70%, 50%, ${this.life})`;
+                } else if (colorMode === 'plasma') {
+                    const r = Math.sin(time * 0.01 + this.x * 0.01) * 127 + 128;
+                    const g = Math.sin(time * 0.01 + this.y * 0.01 + 2) * 127 + 128;
+                    const b = Math.sin(time * 0.01 + this.x * 0.01 + 4) * 127 + 128;
+                    color = `rgba(${r}, ${g}, ${b}, ${this.life})`;
+                } else if (colorMode === 'monochrome') {
+                    const brightness = Math.sin(time * 0.01 + this.x * 0.001) * 0.5 + 0.5;
+                    color = `rgba(255, 255, 255, ${this.life * brightness})`;
+                }
+
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = color;
                 ctx.fill();
+
+                if (this.size > 2) {
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = color;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            connectTo(other) {
+                const dx = other.x - this.x;
+                const dy = other.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 100) {
+                    const opacity = (1 - distance / 100) * 0.3 * this.life * other.life;
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(other.x, other.y);
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
             }
         }
 
         function init() {
-            for (let i = 0; i < particleCount; i++) {
+            particles = [];
+            for (let i = 0; i < 500; i++) {
                 particles.push(new Particle());
             }
         }
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            particles.forEach(particle => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((particle, i) => {
                 particle.update();
                 particle.draw();
-            });
 
-            // Connect particles
-            particles.forEach((a, index) => {
-                particles.slice(index + 1).forEach(b => {
-                    const distance = Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
-                    if (distance < 100) {
-                        ctx.strokeStyle = `rgba(0, 255, 255, ${1 - distance / 100})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(a.x, a.y);
-                        ctx.lineTo(b.x, b.y);
-                        ctx.stroke();
+                for (let j = i + 1; j < particles.length; j++) {
+                    if (Math.random() > 0.98) {
+                        particle.connectTo(particles[j]);
                     }
-                });
+                }
             });
 
+            time++;
             requestAnimationFrame(animate);
         }
 
-        init();
-        animate();
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        });
 
-        // Resize handler
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
 
-        // Interactive hover effects
-        document.querySelectorAll('.glass-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.05) rotateY(5deg)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1) rotateY(0)';
-            });
+        document.getElementById('modeBtn').addEventListener('click', function() {
+            const modes = ['gravity', 'repel', 'vortex'];
+            const currentIndex = modes.indexOf(mode);
+            mode = modes[(currentIndex + 1) % modes.length];
+            this.textContent = `Mode: ${mode.charAt(0).toUpperCase() + mode.slice(1)}`;
         });
 
-        // Button ripple effect
-        document.querySelector('.liquid-button').addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.classList.add('ripple');
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => ripple.remove(), 600);
+        document.getElementById('colorBtn').addEventListener('click', function() {
+            const colors = ['spectrum', 'plasma', 'monochrome'];
+            const currentIndex = colors.indexOf(colorMode);
+            colorMode = colors[(currentIndex + 1) % colors.length];
+            this.textContent = `Color: ${colorMode.charAt(0).toUpperCase() + colorMode.slice(1)}`;
         });
+
+        document.getElementById('speedBtn').addEventListener('click', function() {
+            const speeds = [0.5, 1, 2, 3];
+            const labels = ['Slow', 'Normal', 'Fast', 'Hyper'];
+            const currentIndex = speeds.indexOf(speedMultiplier);
+            const nextIndex = (currentIndex + 1) % speeds.length;
+            speedMultiplier = speeds[nextIndex];
+            this.textContent = `Speed: ${labels[nextIndex]}`;
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            init();
+            this.classList.add('pulse');
+            setTimeout(() => this.classList.remove('pulse'), 2000);
+        });
+
+        init();
+        animate();
     </script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS - 미래의 디지털 경험</title>
+    <title>Quantum Nexus</title>
     <style>
         * {
             margin: 0;
@@ -13,608 +13,542 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
-            color: white;
+            background: #0a0a0a;
             overflow-x: hidden;
-            min-height: 100vh;
+            cursor: none;
         }
 
-        /* 배경 파티클 효과 */
-        .particles {
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ff6b6b, #4ecdc4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.7;
+        }
+
+        /* Background Animation */
+        .bg-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            z-index: -1;
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
         }
 
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Particles */
         .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
+            background: radial-gradient(circle, #ff6b6b, transparent);
             border-radius: 50%;
-            animation: float 15s infinite linear;
+            animation: float 20s infinite linear;
+            opacity: 0.1;
         }
 
         @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
         }
 
-        /* 네비게이션 */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 50px;
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
+        /* Main Container */
+        .container {
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* 메인 히어로 섹션 */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             position: relative;
-            z-index: 10;
+            z-index: 1;
         }
 
-        .hero-content {
+        /* Hero Section */
+        .hero {
             text-align: center;
-            max-width: 800px;
-            padding: 0 20px;
+            padding: 2rem;
+            position: relative;
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(3rem, 8vw, 8rem);
             font-weight: 900;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffd93d);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: glow 3s ease-in-out infinite alternate;
+            animation: textGradient 4s ease infinite, glitch 0.3s infinite;
+            margin-bottom: 1rem;
+            position: relative;
         }
 
-        @keyframes glow {
-            from {
-                filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
-            }
-            to {
-                filter: drop-shadow(0 0 40px rgba(102, 126, 234, 0.8));
-            }
+        @keyframes textGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            10% { transform: translate(-2px, 2px); }
+            20% { transform: translate(2px, -2px); }
+            30% { transform: translate(-2px, -2px); }
+            40% { transform: translate(2px, 2px); }
+            50% { transform: translate(-2px, 2px); }
+            60% { transform: translate(2px, -2px); }
+            70% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
         }
 
         .hero p {
-            font-size: 1.4rem;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: #ffffff;
             opacity: 0.8;
-            margin-bottom: 40px;
-            line-height: 1.6;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 0.5s both;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 0.8;
+                transform: translateY(0);
+            }
+        }
+
+        /* Morphing Shapes */
+        .morphing-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 2rem auto;
+        }
+
+        .morphing-shape {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            animation: morph 8s infinite ease-in-out;
+            opacity: 0.3;
+            filter: blur(2px);
+        }
+
+        .morphing-shape:nth-child(2) {
+            animation-delay: -2s;
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+        }
+
+        .morphing-shape:nth-child(3) {
+            animation-delay: -4s;
+            background: linear-gradient(45deg, #45b7d1, #96ceb4);
+        }
+
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 50%;
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                border-radius: 20% 80% 30% 70%;
+                transform: scale(1.1) rotate(90deg);
+            }
+            50% {
+                border-radius: 80% 20% 70% 30%;
+                transform: scale(0.9) rotate(180deg);
+            }
+            75% {
+                border-radius: 30% 70% 20% 80%;
+                transform: scale(1.2) rotate(270deg);
+            }
+        }
+
+        /* Interactive Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
             position: relative;
             overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
 
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .cta-button::before {
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
         }
 
-        .cta-button:hover::before {
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
             left: 100%;
         }
 
-        /* 기능 카드들 */
-        .features {
-            padding: 100px 50px;
-            max-width: 1400px;
-            margin: 0 auto;
+        .card h3 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(102, 126, 234, 0.5);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .feature-card:hover::before {
-            opacity: 1;
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            color: #f093fb;
-        }
-
-        .feature-card p {
-            opacity: 0.8;
+        .card p {
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
         }
 
-        /* 인터랙티브 원형 요소 */
-        .floating-elements {
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .morphing-container {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
             pointer-events: none;
-            z-index: 2;
         }
 
-        .floating-circle {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border: 2px solid rgba(102, 126, 234, 0.3);
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #ff6b6b;
             border-radius: 50%;
-            animation: floatCircle 20s infinite linear;
+            animation: spin 1s linear infinite;
         }
 
-        .floating-circle:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .floating-circle:nth-child(2) {
-            top: 60%;
-            right: 10%;
-            animation-delay: -5s;
-        }
-
-        .floating-circle:nth-child(3) {
-            bottom: 20%;
-            left: 50%;
-            animation-delay: -10s;
-        }
-
-        @keyframes floatCircle {
-            0% {
-                transform: translateY(0px) rotate(0deg);
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-20px) rotate(360deg);
-                opacity: 0.3;
-            }
-        }
-
-        /* 섹션 제목 */
-        .section-title {
-            text-align: center;
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            opacity: 0.7;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* 푸터 */
-        footer {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 50px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* 마우스 커서 효과 */
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.1s ease;
-            opacity: 0.7;
-        }
-
-        .cursor-follower {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(102, 126, 234, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transition: all 0.3s ease;
-        }
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            nav {
-                padding: 15px 20px;
-            }
-            
-            .nav-links {
-                gap: 15px;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .features {
-                padding: 50px 20px;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .feature-card {
-                padding: 30px;
-            }
-        }
-
-        /* 스크롤 애니메이션 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeInUp 0.8s ease-out;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- 커스텀 커서 -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
-    <!-- 배경 파티클 -->
-    <div class="particles" id="particles"></div>
-
-    <!-- 플로팅 요소들 -->
-    <div class="floating-elements">
-        <div class="floating-circle"></div>
-        <div class="floating-circle"></div>
-        <div class="floating-circle"></div>
+    <div class="loading" id="loading">
+        <div class="loader"></div>
     </div>
 
-    <!-- 네비게이션 -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">NEXUS</div>
-            <div class="nav-links">
-                <a href="#home">홈</a>
-                <a href="#features">기능</a>
-                <a href="#about">소개</a>
-                <a href="#contact">연락처</a>
+    <div class="cursor" id="cursor"></div>
+
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <div class="hero">
+            <h1>QUANTUM NEXUS</h1>
+            <p>Experience the Future of Interactive Design</p>
+            
+            <div class="morphing-container">
+                <div class="morphing-shape"></div>
+                <div class="morphing-shape"></div>
+                <div class="morphing-shape"></div>
             </div>
         </div>
-    </nav>
 
-    <!-- 메인 히어로 섹션 -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>미래를 디자인하다</h1>
-            <p>혁신적인 디지털 경험과 예술적 감성이 만나는 곳. 당신의 상상을 현실로 만들어드립니다.</p>
-            <a href="#features" class="cta-button">경험해보기</a>
-        </div>
-    </section>
-
-    <!-- 기능 섹션 -->
-    <section class="features" id="features">
-        <h2 class="section-title">핵심 기능</h2>
-        <p class="section-subtitle">최첨단 기술과 창의적 디자인이 결합된 혁신적인 솔루션을 제공합니다</p>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h3>초고속 성능</h3>
-                <p>최적화된 알고리즘과 첨단 기술을 활용하여 번개처럼 빠른 성능을 제공합니다. 사용자 경험의 새로운 기준을 제시합니다.</p>
+        <div class="cards-container">
+            <div class="card" data-tilt>
+                <h3>Immersive Experience</h3>
+                <p>Dive into a world where design meets technology. Every element responds to your interaction, creating a personalized journey through digital art.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">🎨</div>
-                <h3>아름다운 디자인</h3>
-                <p>시각적 완성도와 사용자 편의성을 모두 고려한 세련된 인터페이스. 예술적 감성과 실용성의 완벽한 조화를 경험하세요.</p>
+            <div class="card" data-tilt>
+                <h3>Dynamic Animation</h3>
+                <p>Watch as colors flow and shapes transform in real-time. Our advanced CSS animations create a living, breathing interface that never stops evolving.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3>강력한 보안</h3>
-                <p>최신 암호화 기술과 다층 보안 시스템으로 귀하의 데이터를 완벽하게 보호합니다. 안전함이 곧 신뢰입니다.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🌐</div>
-                <h3>글로벌 연결</h3>
-                <p>전 세계 어디서나 끊김없는 연결성을 제공합니다. 지역의 경계를 넘어 무한한 가능성을 열어보세요.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>AI 자동화</h3>
-                <p>인공지능 기반의 스마트 자동화로 복잡한 작업을 간단하게. 미래의 업무 방식을 지금 경험해보세요.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <h3>반응형 디자인</h3>
-                <p>모든 디바이스에서 완벽하게 작동하는 반응형 인터페이스. 언제 어디서나 일관된 최상의 경험을 제공합니다.</p>
+            <div class="card" data-tilt>
+                <h3>Responsive Design</h3>
+                <p>Seamlessly adapts to any device or screen size. Whether you're on mobile, tablet, or desktop, the experience remains fluid and engaging.</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- 푸터 -->
-    <footer>
-        <p>&copy; 2025 NEXUS. 모든 권리 보유. 미래를 향한 여정이 시작됩니다.</p>
-    </footer>
+    <button class="fab" id="fab">✨</button>
 
     <script>
-        // 파티클 생성
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particlesContainer.appendChild(particle);
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const trails = [];
+        
+        for (let i = 0; i < 10; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+            trails.push({
+                element: trail,
+                x: 0,
+                y: 0
+            });
+        }
+
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.transform = `translate(${mouseX - 10}px, ${mouseY - 10}px)`;
+        });
+
+        // Cursor Trail Animation
+        function animateTrails() {
+            let x = mouseX;
+            let y = mouseY;
+            
+            trails.forEach((trail, index) => {
+                trail.x += (x - trail.x) * 0.2;
+                trail.y += (y - trail.y) * 0.2;
+                
+                trail.element.style.transform = `translate(${trail.x - 2}px, ${trail.y - 2}px)`;
+                trail.element.style.opacity = (10 - index) / 10 * 0.5;
+                
+                x = trail.x;
+                y = trail.y;
+            });
+            
+            requestAnimationFrame(animateTrails);
+        }
+        animateTrails();
+
+        // Floating Particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 4 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.opacity = Math.random() * 0.3 + 0.1;
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 20000);
+        }
+
+        setInterval(createParticle, 500);
+
+        // Card Interactions
+        const cards = document.querySelectorAll('.card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.background = 'rgba(255, 255, 255, 0.1)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.background = 'rgba(255, 255, 255, 0.05)';
+            });
+            
+            card.addEventListener('click', () => {
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    card.style.transform = 'translateY(-10px) scale(1.02)';
+                }, 100);
+            });
+        });
+
+        // FAB Interaction
+        const fab = document.getElementById('fab');
+        let fabClicked = false;
+
+        fab.addEventListener('click', () => {
+            if (!fabClicked) {
+                fabClicked = true;
+                fab.innerHTML = '🎨';
+                
+                // Create burst effect
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const burst = document.createElement('div');
+                        burst.style.position = 'fixed';
+                        burst.style.bottom = '5rem';
+                        burst.style.right = '5rem';
+                        burst.style.width = '4px';
+                        burst.style.height = '4px';
+                        burst.style.background = '#ff6b6b';
+                        burst.style.borderRadius = '50%';
+                        burst.style.pointerEvents = 'none';
+                        burst.style.zIndex = '9999';
+                        
+                        const angle = (i / 20) * Math.PI * 2;
+                        const velocity = 150;
+                        const vx = Math.cos(angle) * velocity;
+                        const vy = Math.sin(angle) * velocity;
+                        
+                        document.body.appendChild(burst);
+                        
+                        let x = 0, y = 0;
+                        const animate = () => {
+                            x += vx * 0.016;
+                            y += vy * 0.016;
+                            burst.style.transform = `translate(${x}px, ${y}px)`;
+                            
+                            if (Math.abs(x) < 200 && Math.abs(y) < 200) {
+                                requestAnimationFrame(animate);
+                            } else {
+                                burst.remove();
+                            }
+                        };
+                        animate();
+                    }, i * 50);
+                }
+                
+                setTimeout(() => {
+                    fabClicked = false;
+                    fab.innerHTML = '✨';
+                }, 2000);
+            }
+        });
+
+        // Keyboard Interactions
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ') {
+                e.preventDefault();
+                const hero = document.querySelector('.hero h1');
+                hero.style.animation = 'none';
+                setTimeout(() => {
+                    hero.style.animation = 'textGradient 4s ease infinite, glitch 0.3s infinite';
+                }, 10);
+            }
+        });
+
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Performance optimization
+        let ticking = false;
+        
+        function updateAnimations() {
+            // Update any performance-critical animations here
+            ticking = false;
+        }
+        
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateAnimations);
+                ticking = true;
             }
         }
 
-        // 커스텀 커서
-        function initCursor() {
-            const cursor = document.querySelector('.cursor');
-            const follower = document.querySelector('.cursor-follower');
-
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX - 10 + 'px';
-                cursor.style.top = e.clientY - 10 + 'px';
-                
-                setTimeout(() => {
-                    follower.style.left = e.clientX - 20 + 'px';
-                    follower.style.top = e.clientY - 20 + 'px';
-                }, 100);
-            });
-
-            // 호버 효과
-            const hoverElements = document.querySelectorAll('a, button, .feature-card');
-            hoverElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    cursor.style.transform = 'scale(1.5)';
-                    follower.style.transform = 'scale(1.5)';
-                });
-                
-                el.addEventListener('mouseleave', () => {
-                    cursor.style.transform = 'scale(1)';
-                    follower.style.transform = 'scale(1)';
-                });
-            });
-        }
-
-        // 스크롤 애니메이션
-        function initScrollAnimations() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -100px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('fade-in');
-                    }
-                });
-            }, observerOptions);
-
-            const animatedElements = document.querySelectorAll('.feature-card, .section-title, .section-subtitle');
-            animatedElements.forEach(el => observer.observe(el));
-        }
-
-        // 네비게이션 스크롤 효과
-        function initNavScroll() {
-            const nav = document.querySelector('nav');
-            
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 100) {
-                    nav.style.background = 'rgba(0, 0, 0, 0.9)';
-                    nav.style.backdropFilter = 'blur(20px)';
-                } else {
-                    nav.style.background = 'rgba(255, 255, 255, 0.05)';
-                    nav.style.backdropFilter = 'blur(20px)';
-                }
-            });
-        }
-
-        // 부드러운 스크롤
-        function initSmoothScroll() {
-            const links = document.querySelectorAll('a[href^="#"]');
-            
-            links.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    
-                    if (targetSection) {
-                        targetSection.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        }
-
-        // 페이지 로드 시 초기화
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            initCursor();
-            initScrollAnimations();
-            initNavScroll();
-            initSmoothScroll();
-        });
-
-        // 윈도우 리사이즈 처리
-        window.addEventListener('resize', () => {
-            // 필요시 리사이즈 로직 추가
-        });
+        // Initial animation trigger
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
     </script>
 </body>
 </html>

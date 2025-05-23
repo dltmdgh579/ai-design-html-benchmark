@@ -1,397 +1,467 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Starlight Symphony - A Design Showcase</title>
+    <title>Digital Aurora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color-start: #0a043c;
-            --bg-color-mid: #150866;
-            --bg-color-end: #220c77;
-            --star-color: #ffffff;
-            --nebula-color-1: #7900FF; /* Cyberpunk Purple */
-            --nebula-color-2: #00C6FF; /* Bright Cyan */
-            --text-color: #f0f8ff; /* AliceBlue */
-            --highlight-color: #ffda77; /* Soft Gold */
+            --color-bg: #0a0f1f; /* Deep space blue */
+            --color-primary: #00c6ff; /* Bright cyan */
+            --color-secondary: #9c27b0; /* Vibrant purple */
+            --color-accent: #e0ff4f; /* Neon lime */
+            --color-text: #e0e0e0;
+            --color-text-dim: #a0a0a0;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            --transition-speed: 0.3s;
         }
 
-        * {
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Orbitron', 'Noto Sans KR', sans-serif;
-            background: linear-gradient(135deg, var(--bg-color-start), var(--bg-color-mid) 50%, var(--bg-color-end));
-            color: var(--text-color);
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        /* Header & Hero */
+        .hero {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-            perspective: 1000px; /* For 3D effects */
-        }
-
-        /* Starry Background */
-        #star-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Allow clicks to pass through */
-            z-index: -1;
-        }
-
-        .star {
-            position: absolute;
-            background-color: var(--star-color);
-            border-radius: 50%;
-            box-shadow: 0 0 6px var(--star-color), 0 0 10px var(--star-color);
-            animation: twinkle 5s infinite alternate;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* Main Content Area */
-        .symphony-container {
             text-align: center;
-            padding: 20px;
-            z-index: 1;
-            transform-style: preserve-3d;
-            animation: fadeInScene 2s ease-out forwards;
-        }
-
-        @keyframes fadeInScene {
-            from { opacity: 0; transform: translateY(50px) rotateX(-10deg); }
-            to { opacity: 1; transform: translateY(0) rotateX(0deg); }
-        }
-
-        .title {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--nebula-color-2), 0 0 20px var(--nebula-color-2), 0 0 5px var(--text-color);
-            margin-bottom: 15px;
-            animation: titleGlow 3s infinite alternate;
-        }
-        
-        @keyframes titleGlow {
-            from { text-shadow: 0 0 8px var(--nebula-color-2), 0 0 15px var(--nebula-color-2), 0 0 3px var(--text-color); }
-            to { text-shadow: 0 0 15px var(--nebula-color-2), 0 0 30px var(--nebula-color-2), 0 0 8px var(--text-color); }
-        }
-
-        .subtitle {
-            font-size: clamp(1rem, 2.5vw, 1.5rem);
-            color: var(--text-color);
-            opacity: 0.8;
-            margin-bottom: 40px;
-            text-shadow: 0 0 5px var(--nebula-color-1);
-        }
-
-        /* Cosmic Orb - Central Interactive Element */
-        .cosmic-orb-container {
             position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 40px auto;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 20px;
+            overflow: hidden; /* Crucial for aurora effect containment */
         }
-        
-        .cosmic-orb-container:hover {
-            transform: scale(1.1) rotateY(15deg) rotateX(5deg);
-        }
-        
-        .cosmic-orb {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+
+        .hero::before { /* Aurora Layer 1 */
+            content: '';
             position: absolute;
-            background: radial-gradient(circle at 30% 30%, 
-                #ffffff 0%, 
-                #d0e0ff 20%, 
-                var(--nebula-color-2) 50%, 
-                var(--nebula-color-1) 80%, 
-                #2c0b5e 100%);
-            box-shadow: 
-                0 0 20px var(--nebula-color-2), 
-                0 0 40px var(--nebula-color-1), 
-                0 0 60px var(--nebula-color-2),
-                inset 0 0 15px rgba(255, 255, 255, 0.6),
-                inset 0 0 30px var(--nebula-color-2);
-            animation: orbPulse 4s infinite ease-in-out, orbFloat 8s infinite ease-in-out alternate;
-            transform-style: preserve-3d;
+            top: 0; left: -50%; right: -50%; bottom: 0;
+            background: linear-gradient(45deg, var(--color-primary), transparent 60%),
+                        linear-gradient(-45deg, var(--color-secondary), transparent 60%);
+            animation: aurora-flow 20s ease-in-out infinite alternate, aurora-sway 30s linear infinite;
+            opacity: 0.3;
+            z-index: 0;
+            filter: blur(50px); /* Softens the aurora */
+        }
+
+        .hero::after { /* Aurora Layer 2 - different timing/colors */
+            content: '';
+            position: absolute;
+            top: -20%; left: -60%; right: -60%; bottom: -20%;
+            background: linear-gradient(120deg, var(--color-accent), transparent 70%),
+                        linear-gradient(-100deg, var(--color-primary), var(--color-secondary), transparent 70%);
+            animation: aurora-flow 25s ease-in-out infinite alternate-reverse, aurora-sway 35s linear infinite reverse;
+            opacity: 0.2;
+            z-index: 0;
+            filter: blur(60px);
+        }
+
+        @keyframes aurora-flow {
+            0% { transform: translateY(-10%) scale(1.2); }
+            100% { transform: translateY(10%) scale(1.5); }
+        }
+
+        @keyframes aurora-sway {
+            0% { transform: translateX(-5%) rotate(-2deg); }
+            50% { transform: translateX(5%) rotate(2deg); }
+            100% { transform: translateX(-5%) rotate(-2deg); }
+        }
+
+        .hero-content {
+            position: relative; /* To be above the pseudo-elements */
+            z-index: 1;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 0.5em;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            animation: text-glow 3s infinite alternate;
+        }
+
+        @keyframes text-glow {
+            from { text-shadow: 0 0 5px var(--color-primary), 0 0 10px var(--color-primary); }
+            to { text-shadow: 0 0 10px var(--color-accent), 0 0 20px var(--color-accent); }
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--color-text-dim);
+            margin-bottom: 1.5em;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            font-family: var(--font-display);
+            background: transparent;
+            border: 2px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 12px 25px;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            text-decoration: none;
+            border-radius: 50px;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
+            display: inline-block;
+            box-shadow: 0 0 10px 0px color-mix(in srgb, var(--color-accent) 50%, transparent);
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            background-color: var(--color-accent);
+            color: var(--color-bg);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px 0px color-mix(in srgb, var(--color-accent) 70%, transparent);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            animation: bounce 2s infinite;
+            opacity: 0.7;
+        }
+
+        .scroll-indicator span {
+            display: block;
+            width: 20px;
+            height: 20px;
+            border-bottom: 2px solid var(--color-text-dim);
+            border-right: 2px solid var(--color-text-dim);
+            transform: rotate(45deg);
         }
         
-        @keyframes orbPulse {
-            0%, 100% { transform: scale(0.95) translateZ(0px); box-shadow: 0 0 15px var(--nebula-color-2), 0 0 30px var(--nebula-color-1), 0 0 45px var(--nebula-color-2), inset 0 0 10px rgba(255,255,255,0.5), inset 0 0 20px var(--nebula-color-2); }
-            50% { transform: scale(1.05) translateZ(10px); box-shadow: 0 0 25px var(--nebula-color-2), 0 0 50px var(--nebula-color-1), 0 0 75px var(--nebula-color-2), inset 0 0 20px rgba(255,255,255,0.7), inset 0 0 40px var(--nebula-color-2); }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
         }
 
-        @keyframes orbFloat {
-            0% { transform: translateY(-5px); }
-            100% { transform: translateY(5px); }
+        /* Content Section */
+        .content-section {
+            padding: 60px 0;
+            background-color: color-mix(in srgb, var(--color-bg) 90%, #fff 5%); /* Slightly lighter */
+            position: relative;
+            z-index: 1; /* To ensure it's above any lingering hero effects */
         }
 
-        .orb-ring {
+        .content-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 1.5em;
+            position: relative;
+        }
+        
+        .content-section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            margin: 0.3em auto 0;
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: color-mix(in srgb, var(--color-bg) 70%, var(--color-primary) 5%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid var(--color-primary);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            opacity: 0; /* For JS reveal */
+            transform: translateY(30px); /* For JS reveal */
+        }
+
+        .feature-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px color-mix(in srgb, var(--color-primary) 20%, transparent);
+            border-left-color: var(--color-accent);
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-display);
+            color: var(--color-accent);
+            font-size: 1.5rem;
+            margin-bottom: 0.5em;
+        }
+
+        .feature-card p {
+            color: var(--color-text-dim);
+            font-size: 0.95rem;
+        }
+        
+        /* Pulsing Dot for Visual Flair */
+        .pulsing-dot-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+        }
+
+        .pulsing-dot {
+            width: 20px;
+            height: 20px;
+            background-color: var(--color-secondary);
+            border-radius: 50%;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+        
+        .pulsing-dot::before, .pulsing-dot::after {
+            content: '';
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 150%;
-            height: 150%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transform-origin: center center;
-            transform: translate(-50%, -50%) rotateX(70deg) rotateZ(0deg);
-            animation: ringRotate 15s linear infinite;
+            background-color: var(--color-secondary);
+            opacity: 0.6;
         }
 
-        .orb-ring.two {
-            width: 180%;
-            height: 180%;
-            border-color: rgba(0, 198, 255, 0.4); /* nebula-color-2 with alpha */
-            animation-duration: 20s;
-            animation-direction: reverse;
+        .pulsing-dot::before {
+            animation: pulse-ring 2s infinite;
+            animation-delay: 0.2s;
         }
-        
-        .orb-ring.three {
-            width: 210%;
-            height: 210%;
-            border-color: rgba(121, 0, 255, 0.3); /* nebula-color-1 with alpha */
-            animation-duration: 25s;
+        .pulsing-dot::after {
+            animation: pulse-ring 2s infinite;
+            animation-delay: 0.4s;
         }
 
-        @keyframes ringRotate {
-            from { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(0deg); }
-            to { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(360deg); }
+        @keyframes pulse {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-secondary) 50%, transparent); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px color-mix(in srgb, var(--color-secondary) 0%, transparent); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-secondary) 0%, transparent); }
+        }
+        @keyframes pulse-ring {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+            70% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
         }
 
-        /* Interactive "Notes" / Particles */
-        .musical-notes {
-            position: absolute;
-            bottom: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 2;
-        }
-
-        .note {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--highlight-color);
-            box-shadow: 0 0 10px var(--highlight-color), 0 0 20px var(--highlight-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--bg-color-start);
-            animation: noteAppear 1s ease-out forwards;
-            opacity: 0;
-        }
-
-        .note:nth-child(1) { animation-delay: 1.5s; content: "♪"; }
-        .note:nth-child(2) { animation-delay: 1.7s; content: "♫"; }
-        .note:nth-child(3) { animation-delay: 1.9s; content: "♩"; }
-
-
-        @keyframes noteAppear {
-            from { opacity: 0; transform: translateY(30px) scale(0.5); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .note:hover {
-            transform: scale(1.2) translateY(-5px);
-            box-shadow: 0 0 15px var(--highlight-color), 0 0 30px var(--highlight-color), 0 0 5px #fff;
-        }
-        
-        .note.active {
-            background: var(--nebula-color-2);
-            color: var(--text-color);
-            box-shadow: 0 0 15px var(--nebula-color-2), 0 0 30px var(--nebula-color-2);
-        }
 
         /* Footer */
-        .footer {
-            position: absolute;
-            bottom: 10px;
-            font-size: 0.8rem;
-            opacity: 0.7;
+        .site-footer {
+            background-color: color-mix(in srgb, var(--color-bg) 95%, #000 5%);
+            color: var(--color-text-dim);
+            text-align: center;
+            padding: 30px 0;
+            font-size: 0.9rem;
+            margin-top: auto; /* Pushes footer to bottom in flex column */
+            position: relative;
             z-index: 1;
         }
-        
-        /* Font (Google Fonts - Optional, but good for styling) */
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+
+        .site-footer p {
+            margin-bottom: 0.5em;
+        }
+
+        .site-footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .site-footer a:hover {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr; /* Stack cards on smaller screens */
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+          .hero::before, .hero::after { /* Still allow some subtle aurora, less motion */
+            animation: aurora-flow 60s ease-in-out infinite alternate;
+          }
+        }
 
     </style>
 </head>
 <body>
-    <div id="star-container"></div>
 
-    <div class="symphony-container">
-        <h1 class="title">Starlight Symphony</h1>
-        <p class="subtitle">An Interactive Celestial Experience</p>
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Digital Aurora</h1>
+            <p>Experience the fusion of technology and ethereal beauty. A single file, a universe of design.</p>
+            <a href="#features" class="cta-button">Explore the Spectrum</a>
+        </div>
+        <a href="#features" class="scroll-indicator" aria-label="Scroll down">
+            <span></span>
+        </a>
+    </header>
 
-        <div class="cosmic-orb-container" id="cosmicOrbContainer" title="Click to interact with the cosmos!">
-            <div class="cosmic-orb" id="cosmicOrb">
-                <div class="orb-ring"></div>
-                <div class="orb-ring two"></div>
-                <div class="orb-ring three"></div>
+    <main>
+        <section id="features" class="content-section">
+            <div class="container">
+                <h2>Core Elements</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>Vibrant Gradients</h3>
+                        <p>Dynamic, flowing gradients that mimic the aurora, crafted purely with CSS for mesmerizing visual depth.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Responsive Layout</h3>
+                        <p>Adapts seamlessly to any screen size, ensuring a perfect viewing experience on desktop, tablet, or mobile.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Animated Interactivity</h3>
+                        <p>Subtle animations and hover effects that engage the user and bring the digital landscape to life.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Modern Typography</h3>
+                        <p>Clean and futuristic fonts (Orbitron & Roboto) enhance readability and aesthetic appeal.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>CSS Artistry</h3>
+                        <p>Leveraging advanced CSS techniques for shapes, effects, and transitions, all within this single file.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Purely Self-Contained</h3>
+                        <p>Everything you see – styles, (minor) scripts, and structure – is embedded in one HTML document.</p>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
         
-        <div class="musical-notes">
-            <div class="note" data-note="C" title="Play Note C">♪</div>
-            <div class="note" data-note="E" title="Play Note E">♫</div>
-            <div class="note" data-note="G" title="Play Note G">♩</div>
-        </div>
-    </div>
+        <section class="content-section" style="background-color: var(--color-bg);">
+            <div class="container">
+                <h2>Visual Pulse</h2>
+                <p style="text-align: center; color: var(--color-text-dim); margin-bottom: 2em;">A small demonstration of CSS-driven ambient animation.</p>
+                <div class="pulsing-dot-container">
+                    <div class="pulsing-dot"></div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <footer class="footer">
-        Crafted with HTML & CSS by AI.
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Your Name/Brand. A Single File Design Masterpiece.</p>
+            <p>Crafted with HTML, CSS, and a touch of JavaScript.</p>
+        </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Star Generation
-            const starContainer = document.getElementById('star-container');
-            const numStars = 150; // More stars for a denser field
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            for (let i = 0; i < numStars; i++) {
-                let star = document.createElement('div');
-                star.className = 'star';
-                let xy = getRandomPosition();
-                star.style.left = xy[0] + 'px';
-                star.style.top = xy[1] + 'px';
-                const size = Math.random() * 3 + 1; // Stars from 1px to 4px
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.animationDelay = Math.random() * 5 + 's'; // Random delay for twinkling
-                star.style.animationDuration = (Math.random() * 5 + 3) + 's'; // Random duration for twinkle
-                starContainer.appendChild(star);
-            }
+        // Simple scroll reveal for feature cards
+        const featureCards = document.querySelectorAll('.feature-card');
 
-            function getRandomPosition() {
-                var y = window.innerWidth;
-                var x = window.innerHeight;
-                var randomX = Math.floor(Math.random() * x);
-                var randomY = Math.floor(Math.random() * y);
-                return [randomY, randomX];
-            }
+        const observerOptions = {
+            root: null, // relative to document viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of item is visible
+        };
 
-            // 2. Cosmic Orb Interaction
-            const cosmicOrb = document.getElementById('cosmicOrb');
-            const cosmicOrbContainer = document.getElementById('cosmicOrbContainer');
-            let isPulsingFast = false;
-
-            cosmicOrbContainer.addEventListener('click', () => {
-                isPulsingFast = !isPulsingFast;
-                if (isPulsingFast) {
-                    cosmicOrb.style.animation = 'orbPulseFast 0.5s infinite ease-in-out, orbFloat 8s infinite ease-in-out alternate';
-                    createSparkles(cosmicOrbContainer, 20);
-                } else {
-                    cosmicOrb.style.animation = 'orbPulse 4s infinite ease-in-out, orbFloat 8s infinite ease-in-out alternate';
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: unobserve after animation
+                    // observer.unobserve(entry.target);
                 }
-                // Add a temporary class for feedback
-                cosmicOrb.classList.add('orb-clicked');
-                setTimeout(() => cosmicOrb.classList.remove('orb-clicked'), 500);
+                // Optional: remove class if not intersecting to re-animate on scroll up
+                // else {
+                //     entry.target.classList.remove('is-visible');
+                // }
             });
-            
-            // Define orbPulseFast if not in CSS (or ensure it's defined there)
-            // For simplicity, we'll rely on the style change, but you could define a new keyframe in JS if needed or add it to CSS:
-            // @keyframes orbPulseFast { 0%, 100% { transform: scale(0.9); } 50% { transform: scale(1.1); } }
-            // (Ensure this matches the box-shadow and translateZ from orbPulse if you want consistency)
+        }, observerOptions);
 
+        featureCards.forEach(card => {
+            observer.observe(card);
+        });
 
-            // 3. Interactive Notes (Conceptual - actual audio needs Web Audio API)
-            const notes = document.querySelectorAll('.note');
-            notes.forEach(note => {
-                // Set the musical symbol as pseudo-content if desired, or use innerHTML
-                const noteSymbol = note.innerHTML; // Store original symbol
-                note.innerHTML = ''; // Clear it if using pseudo-element
-                const symbolSpan = document.createElement('span');
-                symbolSpan.textContent = noteSymbol;
-                note.appendChild(symbolSpan);
-
-
-                note.addEventListener('click', () => {
-                    console.log(`Playing note: ${note.dataset.note}`);
-                    // Simple visual feedback
-                    note.classList.add('active');
-                    createSparkles(note, 5, note.dataset.note === 'C' ? 'var(--nebula-color-1)' : (note.dataset.note === 'E' ? 'var(--nebula-color-2)' : 'var(--highlight-color)'));
-
-                    setTimeout(() => {
-                        note.classList.remove('active');
-                    }, 300);
-                    
-                    // To play actual sound, you'd use Web Audio API here.
-                    // For example: playSound(note.dataset.note);
-                });
-            });
-
-            // 4. Sparkle Effect Function
-            function createSparkles(element, count = 10, color = 'var(--highlight-color)') {
-                const rect = element.getBoundingClientRect();
-                for (let i = 0; i < count; i++) {
-                    const sparkle = document.createElement('div');
-                    sparkle.style.position = 'absolute';
-                    sparkle.style.width = `${Math.random() * 5 + 2}px`;
-                    sparkle.style.height = sparkle.style.width;
-                    sparkle.style.borderRadius = '50%';
-                    sparkle.style.background = color;
-                    sparkle.style.boxShadow = `0 0 5px ${color}`;
-                    sparkle.style.left = `${Math.random() * rect.width}px`;
-                    sparkle.style.top = `${Math.random() * rect.height}px`;
-                    sparkle.style.opacity = '1';
-                    sparkle.style.pointerEvents = 'none';
-                    sparkle.style.zIndex = '10';
-                    
-                    // Animate sparkle
-                    const animationDuration = Math.random() * 0.8 + 0.4; // 0.4s to 1.2s
-                    sparkle.animate([
-                        { transform: 'scale(1) translate(0, 0)', opacity: 1 },
-                        { transform: `scale(0) translate(${(Math.random() - 0.5) * 60}px, ${(Math.random() - 0.5) * 60}px)`, opacity: 0 }
-                    ], {
-                        duration: animationDuration * 1000,
-                        easing: 'ease-out'
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
                     });
-
-                    element.appendChild(sparkle);
-                    setTimeout(() => sparkle.remove(), animationDuration * 1000);
                 }
-            }
-            
-            // Add fast pulse keyframes to CSS (if not already there)
-            // Ensure consistent structure with orbPulse, e.g., including translateZ if needed.
-            // This can also be done by dynamically creating a <style> tag.
-            const styleSheet = document.createElement("style")
-            styleSheet.type = "text/css"
-            styleSheet.innerText = `
-                @keyframes orbPulseFast {
-                    0%, 100% { transform: scale(0.9) translateZ(0px); box-shadow: 0 0 10px var(--nebula-color-2), 0 0 20px var(--nebula-color-1), 0 0 30px var(--nebula-color-2), inset 0 0 8px rgba(255,255,255,0.4), inset 0 0 15px var(--nebula-color-2); }
-                    50% { transform: scale(1.1) translateZ(15px); box-shadow: 0 0 30px var(--nebula-color-2), 0 0 60px var(--nebula-color-1), 0 0 90px var(--nebula-color-2), inset 0 0 25px rgba(255,255,255,0.8), inset 0 0 50px var(--nebula-color-2); }
-                }
-                .cosmic-orb.orb-clicked { /* Subtle feedback */
-                    filter: brightness(1.2);
-                }
-            `;
-            document.head.appendChild(styleSheet);
-
+            });
         });
     </script>
+
 </body>
 </html>

@@ -2,177 +2,150 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>하루를 디자인하다</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a2f0f6e1f4.js" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Masterpiece</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f5f5f5;
-      --text: #1e1e1e;
-      --card-bg: rgba(255, 255, 255, 0.6);
-      --glass: blur(12px);
-      --transition: 0.3s ease;
-    }
-
-    [data-theme='dark'] {
-      --bg: #1c1c1c;
-      --text: #f5f5f5;
-      --card-bg: rgba(30, 30, 30, 0.6);
+      --gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --text-light: #ffffff;
+      --accent: #00e6e6;
     }
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Outfit', sans-serif;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      transition: background var(--transition), color var(--transition);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: var(--gradient);
+      color: var(--text-light);
+      overflow-x: hidden;
     }
 
-    .container {
-      width: 95%;
-      max-width: 1000px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%);
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: typewriter 4s steps(40) 1s 1 normal both, blink 0.75s step-end infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid var(--accent);
+    }
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 18ch; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      opacity: 0.85;
+    }
+
+    .scroll-down {
+      margin-top: 3rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--accent);
+    }
+
+    .scroll-down:hover {
+      text-decoration: underline;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 2rem;
     }
 
     .card {
-      background: var(--card-bg);
-      backdrop-filter: var(--glass);
-      border-radius: 20px;
-      padding: 1.5rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      transition: var(--transition);
-    }
-
-    .card h2 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-    }
-
-    .clock {
-      font-size: 2.5rem;
-      font-weight: 600;
-    }
-
-    .todo input {
-      width: 100%;
-      padding: 0.8rem;
-      border: none;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-
-    .todo ul {
-      list-style: none;
-    }
-
-    .todo ul li {
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .quote {
-      font-style: italic;
-      font-size: 1.1rem;
-    }
-
-    .weather {
+      background: var(--glass-bg);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
       text-align: center;
-      font-size: 1.1rem;
+      max-width: 600px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .darkmode-toggle {
-      position: absolute;
-      top: 1.5rem;
-      right: 2rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: transform var(--transition);
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.4);
     }
 
-    .darkmode-toggle:hover {
-      transform: scale(1.2);
+    footer {
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.6;
     }
 
-    @media (max-width: 768px) {
-      .container {
-        grid-template-columns: 1fr;
-        height: auto;
-        overflow-y: scroll;
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .card {
+        padding: 1.5rem;
       }
     }
   </style>
 </head>
-<body data-theme="light">
-  <div class="darkmode-toggle" onclick="toggleTheme()">
-    <i class="fas fa-adjust"></i>
-  </div>
-  <div class="container">
+<body>
+  <header>
+    <h1>Design. Code. Inspire.</h1>
+    <p>A single file masterpiece blending creativity and code in perfect harmony.</p>
+    <div class="scroll-down" onclick="document.getElementById('main').scrollIntoView({ behavior: 'smooth' });">
+      ↓ Explore
+    </div>
+  </header>
+
+  <section id="main">
     <div class="card">
-      <h2>⏰ 지금 시간</h2>
-      <div class="clock" id="clock">--:--:--</div>
+      <h2>Glassmorphism Aesthetic</h2>
+      <p>This card uses a beautiful blur and transparency combination to create a modern UI effect that's subtle yet stunning. Clean design, zero distractions.</p>
     </div>
+  </section>
 
-    <div class="card todo">
-      <h2>✅ 오늘 할 일</h2>
-      <input type="text" id="todoInput" placeholder="할 일을 입력하고 Enter!" onkeypress="addTodo(event)">
-      <ul id="todoList"></ul>
-    </div>
-
-    <div class="card weather">
-      <h2>🌤️ 오늘의 날씨</h2>
-      <p>서울, 맑음 23°C</p>
-      <p>(API 없이 예시 값)</p>
-    </div>
-
-    <div class="card quote">
-      <h2>📝 오늘의 인용구</h2>
-      <p id="quoteText">“꾸준함은 천재를 이긴다.”</p>
-    </div>
-  </div>
+  <footer>
+    Crafted with passion ✦ 2025
+  </footer>
 
   <script>
-    function updateClock() {
-      const now = new Date();
-      const h = now.getHours().toString().padStart(2, '0');
-      const m = now.getMinutes().toString().padStart(2, '0');
-      const s = now.getSeconds().toString().padStart(2, '0');
-      document.getElementById("clock").textContent = `${h}:${m}:${s}`;
-    }
-
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    function addTodo(e) {
-      if (e.key === "Enter") {
-        const val = e.target.value.trim();
-        if (!val) return;
-        const li = document.createElement("li");
-        li.textContent = val;
-        document.getElementById("todoList").appendChild(li);
-        e.target.value = "";
+    // Optional: Add keyboard shortcut to scroll
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        document.getElementById('main').scrollIntoView({ behavior: 'smooth' });
       }
-    }
-
-    function toggleTheme() {
-      const body = document.body;
-      const current = body.getAttribute("data-theme");
-      body.setAttribute("data-theme", current === "light" ? "dark" : "light");
-    }
+    });
   </script>
 </body>
 </html>
